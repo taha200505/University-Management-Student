@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${isEdit} ? 'Modifier Module' : 'Nouveau Module')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<div class="container-fluid px-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h4 class="mb-0">
+                        <i class="bi" th:classappend="${isEdit} ? 'bi-pencil-square' : 'bi-plus-circle'"></i>
+                        <span th:text="${isEdit} ? 'Modifier le module' : 'Nouveau module'"></span>
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form th:action="${isEdit} ? @{/courses/edit/{id}(id=${course.id})} : @{/courses/new}"
+                          th:object="${course}" method="post" novalidate>
+                        <div class="mb-3">
+                            <label class="form-label">Titre *</label>
+                            <input type="text" class="form-control" th:field="*{title}"
+                                   th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'"/>
+                            <div class="invalid-feedback" th:errors="*{title}"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Code *</label>
+                            <input type="text" class="form-control" th:field="*{code}"
+                                   th:classappend="${#fields.hasErrors('code')} ? 'is-invalid'"/>
+                            <div class="invalid-feedback" th:errors="*{code}"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Crédits *</label>
+                            <input type="number" class="form-control" th:field="*{credits}" min="1" max="30"
+                                   th:classappend="${#fields.hasErrors('credits')} ? 'is-invalid'"/>
+                            <div class="invalid-feedback" th:errors="*{credits}"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Professeur</label>
+                            <select class="form-select" th:field="*{professorId}">
+                                <option value="">-- Non assigné --</option>
+                                <option th:each="p : ${professors}"
+                                        th:value="${p.id}"
+                                        th:text="${p.firstName + ' ' + p.lastName}"></option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Filière *</label>
+                            <select class="form-select" th:field="*{filiereId}"
+                                    th:classappend="${#fields.hasErrors('filiereId')} ? 'is-invalid'">
+                                <option value="">-- Choisir --</option>
+                                <option th:each="f : ${filieres}"
+                                        th:value="${f.id}" th:text="${f.name}"></option>
+                            </select>
+                            <div class="invalid-feedback" th:errors="*{filiereId}"></div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-lg"></i>
+                                <span th:text="${isEdit} ? 'Mettre à jour' : 'Enregistrer'"></span>
+                            </button>
+                            <a th:href="@{/courses}" class="btn btn-outline-secondary">Annuler</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

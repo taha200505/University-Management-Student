@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Filières')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: alerts}"></div>
+
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2><i class="bi bi-diagram-3"></i> Filières</h2>
+        <a th:href="@{/filieres/new}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Nouvelle Filière
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-striped align-middle">
+            <thead>
+            <tr><th>#</th><th>Nom</th><th>Code</th><th>Description</th><th>Étudiants</th><th class="text-center">Actions</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="f : ${filieres}">
+                <td th:text="${f.id}"></td>
+                <td th:text="${f.name}"></td>
+                <td><span class="badge bg-primary" th:text="${f.code}"></span></td>
+                <td th:text="${f.description ?: '-'}"></td>
+                <td th:text="${f.studentCount}"></td>
+                <td class="text-center">
+                    <a th:href="@{/filieres/edit/{id}(id=${f.id})}" class="btn btn-warning btn-action">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <a sec:authorize="hasRole('ADMIN')"
+                       th:href="@{/filieres/delete/{id}(id=${f.id})}"
+                       class="btn btn-danger btn-action"
+                       onclick="return confirm('Confirmer la suppression ?')">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(filieres)}">
+                <td colspan="6" class="text-center py-4 text-muted">Aucune filière</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

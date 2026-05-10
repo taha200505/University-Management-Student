@@ -1,0 +1,76 @@
+/* ===== University Management Custom Styles ===== */
+
+:root {
+    --primary-color: #0d6efd;
+    --bg-light: #f8f9fa;
+}
+
+body {
+    background-color: var(--bg-light);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.card-stat {
+    border: none;
+    border-radius: 12px;
+    transition: transform 0.2s;
+}
+.card-stat:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+.card-stat .card-body {
+    padding: 1.5rem;
+}
+.card-stat .stat-icon {
+    font-size: 2.5rem;
+    opacity: 0.7;
+}
+.card-stat .stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.table th {
+    background-color: #e9ecef;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-active   { background-color: #198754; }
+.badge-suspended { background-color: #dc3545; }
+.badge-graduated { background-color: #0d6efd; }
+
+.btn-action {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+}
+
+.login-container {
+    max-width: 420px;
+    margin: 100px auto;
+}
+
+.filter-bar {
+    background: white;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.page-link {
+    color: var(--primary-color);
+}
+
+.page-item.active .page-link {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}

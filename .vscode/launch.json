@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-UniversityManagementApplication<university-management>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "ma.university.management.UniversityManagementApplication",
+            "projectName": "university-management",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

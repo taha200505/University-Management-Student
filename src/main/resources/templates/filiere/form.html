@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${isEdit} ? 'Modifier Filière' : 'Nouvelle Filière')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<div class="container-fluid px-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h4 class="mb-0">
+                        <i class="bi" th:classappend="${isEdit} ? 'bi-pencil-square' : 'bi-plus-circle'"></i>
+                        <span th:text="${isEdit} ? 'Modifier la filière' : 'Nouvelle filière'"></span>
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form th:action="${isEdit} ? @{/filieres/edit/{id}(id=${filiere.id})} : @{/filieres/new}"
+                          th:object="${filiere}" method="post" novalidate>
+                        <div class="mb-3">
+                            <label class="form-label">Nom *</label>
+                            <input type="text" class="form-control" th:field="*{name}"
+                                   th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'"/>
+                            <div class="invalid-feedback" th:errors="*{name}"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Code *</label>
+                            <input type="text" class="form-control" th:field="*{code}"
+                                   placeholder="SMI, SMA, SVT..."
+                                   th:classappend="${#fields.hasErrors('code')} ? 'is-invalid'"/>
+                            <div class="invalid-feedback" th:errors="*{code}"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" rows="3" th:field="*{description}"
+                                      th:classappend="${#fields.hasErrors('description')} ? 'is-invalid'"></textarea>
+                            <div class="invalid-feedback" th:errors="*{description}"></div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-lg"></i>
+                                <span th:text="${isEdit} ? 'Mettre à jour' : 'Enregistrer'"></span>
+                            </button>
+                            <a th:href="@{/filieres}" class="btn btn-outline-secondary">Annuler</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

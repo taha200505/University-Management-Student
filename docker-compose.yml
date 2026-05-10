@@ -1,0 +1,48 @@
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: university-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root_secret
+      MYSQL_DATABASE: university_db
+      MYSQL_USER: university_admin
+      MYSQL_PASSWORD: admin_pass
+      TZ: Africa/Casablanca
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot_secret"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - university-net
+
+  app:
+    build: .
+    container_name: university-app
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/university_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Africa/Casablanca
+      SPRING_DATASOURCE_USERNAME: university_admin
+      SPRING_DATASOURCE_PASSWORD: admin_pass
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_SQL_INIT_MODE: always
+    ports:
+      - "8080:8080"
+    networks:
+      - university-net
+
+volumes:
+  mysql_data:
+
+networks:
+  university-net:
+    driver: bridge
